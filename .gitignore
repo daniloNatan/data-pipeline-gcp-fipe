@@ -1,0 +1,27 @@
+# Ambientes Virtuais
+venv/
+env/
+.env/
+.venv/
+
+# Secrets (NUNCA DEVE SUBIR PRO REPO)
+.env
+*.pem
+*.key
+google-credentials.json
+key.json
+
+# Logs e Cache de Compilação
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+.pytest_cache/
+
+# IDE e Sistemas
+.vscode/
+.idea/
+.DS_Store
+
+# Gerenciadores de pacote opcionais
+.poetry/
