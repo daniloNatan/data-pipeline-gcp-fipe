@@ -17,7 +17,14 @@ Não há hardcoding no projeto. Duplique o arquivo `.env.example` e o renomeie p
 
 ## Dicionário de Dados
 
-*(A ser populado após as rotinas de carga de dados para o Data Warehouse no Google BigQuery)*
+**Tabela: Marcas (Veículos FIPE)**
+
+| Coluna | Tipo | Descrição |
+|--------|------|-----------|
+| `codigo_marca` | INT / STRING | Identificador único da marca na FIPE |
+| `nome_marca` | STRING | Nome oficial da marca fabricante |
+
+*(A estrutura final será consolidadada após a carga no Data Warehouse do Google BigQuery).*
 
 ## Execução Local (Poetry/UV)
 

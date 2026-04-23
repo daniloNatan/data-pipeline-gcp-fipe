@@ -8,13 +8,20 @@ load_dotenv()
 url = os.getenv('FIPE_API_URL')
 
 def extrair_dados(url: str) -> List[Dict]:
-    """Realiza uma requisição HTTP GET para a URL da API da FIPE e extrai os dados em formato JSON.
+    """Extrai dados em formato JSON realizando uma requisição HTTP GET para a URL fornecida.
 
     Args:
-        url (str): A URL da API ou endpoint para realizar a requisição.
+        url (str): A URL ou endpoint da API FIPE para realizar a requisição.
 
     Returns:
-        List[Dict]: Uma lista de dicionários contendo os dados retornados pela API.
+        List[Dict]: Lista de dicionários contendo os dados retornados pela API em JSON.
+
+    Raises:
+        requests.exceptions.ConnectionError: Quando o servidor não é encontrado.
+        requests.exceptions.Timeout: Se a requisição expirar (timeout de 3.05 de conexão e 15s de leitura).
+        requests.exceptions.HTTPError: Se o servidor retornar códigos HTTP de erro.
+        requests.exceptions.JSONDecodeError: Se a resposta não puder ser convertida para JSON.
+        requests.exceptions.RequestException: Qualquer outro erro inesperado na requisição.
     """
     try:
 
