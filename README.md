@@ -6,7 +6,7 @@ Este repositório contém a infraestrutura e os scripts para uma jornada de Enge
 
 Seguimos as práticas de DevOps e SRE voltadas à Engenharia de Dados:
 - `dags/`: Orquestração de pipelines (Airflow).
-- `scripts/`: Scripts principais de extração e processamento (Python).
+- `scripts/`: Scripts principais de extração, processamento e carga de dados no BigQuery (`extract_fipe`, `data_transform`, `load_bigquery`).
 - `tests/`: Testes de software garantindo qualidade da arquitetura.
 - `config/`: Arquivos complementares de configuração.
 - `terraform/`: Arquivos IaC (Infrastructure as Code) para Google Cloud Platform.
