@@ -1,20 +1,12 @@
-from typing import Dict, List
 import requests
-import os
-from dotenv import load_dotenv
+import pandas as pd
+from airflow.models import Variable
 
-load_dotenv()
-
-url = os.getenv('FIPE_API_URL')
-
-def extrair_dados(url: str) -> List[Dict]:
-    """Extrai dados em formato JSON realizando uma requisição HTTP GET para a URL fornecida.
-
-    Args:
-        url (str): A URL ou endpoint da API FIPE para realizar a requisição.
+def extrair_dados() -> str:
+    """Extrai dados em formato JSON da API FIPE e os salva em um arquivo parquet temporário.
 
     Returns:
-        List[Dict]: Lista de dicionários contendo os dados retornados pela API em JSON.
+        str: O caminho do arquivo salvo no disco local (/tmp/fipe_dados_brutos.parquet).
 
     Raises:
         requests.exceptions.ConnectionError: Quando o servidor não é encontrado.
@@ -24,6 +16,7 @@ def extrair_dados(url: str) -> List[Dict]:
         requests.exceptions.RequestException: Qualquer outro erro inesperado na requisição.
     """
     try:
+        url = Variable.get('FIPE_API_URL')
 
         timeout = 3.05, 15
 
@@ -35,7 +28,13 @@ def extrair_dados(url: str) -> List[Dict]:
 
         if isinstance(response_json, (dict, list)):
 
-            return response_json
+            df = pd.DataFrame(response_json)
+            
+            path_local = '/tmp/fipe_dados_brutos.parquet'
+            
+            df.to_parquet(path_local)
+            
+            return path_local
 
     except requests.exceptions.ConnectionError as err_c:
 
@@ -44,7 +43,7 @@ def extrair_dados(url: str) -> List[Dict]:
 
     except requests.exceptions.Timeout as err_t:
 
-        print(f'rro de Timeout: A API demorou demais para responder. Detalhes: {err_t}')
+        print(f'Erro de Timeout: A API demorou demais para responder. Detalhes: {err_t}')
         raise
 
     except requests.exceptions.HTTPError as err_h:
