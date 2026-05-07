@@ -11,9 +11,19 @@ Seguimos as práticas de DevOps e SRE voltadas à Engenharia de Dados:
 - `config/`: Arquivos complementares de configuração.
 - `terraform/`: Arquivos IaC (Infrastructure as Code) para Google Cloud Platform.
 
-## Variáveis de Ambiente
+## Variáveis de Ambiente e Airflow Variables
 
-Não há hardcoding no projeto. Duplique o arquivo `.env.example` e o renomeie para `.env`, preenchendo as chaves necessárias antes de rodar os scripts.
+Não há hardcoding no projeto. Duplique o arquivo `.env.example` e o renomeie para `.env` se for rodar os scripts localmente sem Airflow.
+
+**Para a execução das DAGs do Airflow:**
+A arquitetura foi otimizada para evitar leitura de disco e sobrecarga do Scheduler. Você **deve** cadastrar as seguintes chaves na interface web do Airflow em **Admin > Variables**:
+- `FIPE_API_URL`
+- `GCP_PROJECT_ID`
+- `GCP_TABLE_ID`
+
+## Arquitetura de Pipeline Sênior
+Para evitar o estrangulamento do banco de dados de metadados do Airflow (limites do XCom), o tráfego de dados volumosos entre as `tasks` não é feito em memória. 
+Utilizamos a gravação de arquivos intermediários eficientes (`.parquet`) na pasta `/tmp/`, e trafegamos apenas a *string* do caminho do arquivo via XCom entre a Extração, Transformação e Carga.
 
 ## Dicionário de Dados
 
